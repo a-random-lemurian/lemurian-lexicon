@@ -19,9 +19,15 @@ var HtmlTemplate = `
         .dictionary ol {
             margin: 0px;
         }
+		body {
+			background-color: #000;
+			color: #fff;
+			max-width: 600px;
+			margin: auto;
+		}
     </style>
 </head>
-<body style="max-width: 600px; margin: auto;">
+<body>
     <h1>{{.LanguageName}}</h1>
     <hr>
     <div class="dictionary">
@@ -98,8 +104,11 @@ func ExportSinglePageHTML(dict *Dictionary) (string, error) {
 	return html.String(), nil
 }
 
-/*
-func ExportStaticHTML(dict *Dictionary) (string, error) {
+type StaticExportParams struct {
+	Dictionary *Dictionary
+}
+
+// Export a Dictionary to a static set of HTML files.
+func ExportStaticHTML(params *StaticExportParams) {
 
 }
-*/
