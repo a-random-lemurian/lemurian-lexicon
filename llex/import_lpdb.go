@@ -1,4 +1,4 @@
-package main
+package llex
 
 import (
 	"bufio"
@@ -36,6 +36,7 @@ func ImportFromLexiquePro(filename string) (*Dictionary, error) {
 			currentEntry.UsageNotes = make([]string, 0)
 		case `\ps`:
 			currentEntry.POS = strings.Join(tokens[1:], " ")
+		case `\de`:
 		case `\ge`:
 			definitions := strings.Split(strings.Join(tokens[1:], " "), ";")
 			for _, def := range definitions {

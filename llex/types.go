@@ -1,4 +1,4 @@
-package main
+package llex
 
 type QualifiedStrings struct {
 	Qualifiers []string `json:"qualifiers,omitempty"`
