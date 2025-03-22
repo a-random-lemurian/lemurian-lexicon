@@ -16,7 +16,7 @@ type ErrorUnsupportedFormat struct {
 }
 
 func (e *ErrorUnsupportedFormat) Error() string {
-	return "unsupported import format '" + e.attemptedFormat + "'"
+	return "unsupported format '" + e.attemptedFormat + "'"
 }
 
 func cmdImport(cCtx *cli.Context) error {
