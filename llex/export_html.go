@@ -25,18 +25,8 @@ var HtmlTemplate = `
     <h1>{{.LanguageName}}</h1>
     <hr>
     <div class="dictionary">
-	{{range .Entries}}
-	{{if .Word}}
-	<div class="entry">
-	<b class="headword">{{.Word}}</b> <i class="part-of-speech">{{.POS}}</i> <br>
-	<ol>
-		{{range .Definitions}}
-		<li>{{.Text}}</li>
-		{{end}}
-	</ol>
-	</div>
-	{{else}}
-	{{end}}
+	{{range .HTMLEntries}}
+	{{.}}
 	{{end}}
     </div>
     <hr>
@@ -44,9 +34,33 @@ var HtmlTemplate = `
 </html>
 `
 
+var WordTemplate = `<div class="entry">
+<b class="headword">{{.Word}}</b> <i class="part-of-speech">{{.POS}}</i> <br>
+<ol>
+{{range .Definitions}}
+	<li>{{.Text}}</li>
+{{end}}
+</ol>
+</div>`
+
 type htmlParameters struct {
 	LanguageName string
-	Entries      []*Entry
+	HTMLEntries  []template.HTML
+}
+
+func (e *Entry) GenerateHTML() (string, error) {
+	t, err := template.New("html").Parse(WordTemplate)
+	if err != nil { return "", err }
+
+	var html bytes.Buffer
+
+	err = t.Execute(&html, e)
+
+	if err != nil {
+		return "", err
+	}
+
+	return html.String(), nil
 }
 
 // Export a Dictionary to a single HTML file.
@@ -58,6 +72,15 @@ func ExportSinglePageHTML(dict *Dictionary) (string, error) {
 		return sortedEntries[i].Word < sortedEntries[j].Word
 	})
 
+	var sortedEntriesHTML []template.HTML
+	for _, entry := range sortedEntries {
+		entryHTML, err := entry.GenerateHTML()
+		if err != nil {
+			return "", err
+		}
+		sortedEntriesHTML = append(sortedEntriesHTML, template.HTML(entryHTML))
+	}
+
 	t, err := template.New("html").Parse(HtmlTemplate)
 	if err != nil {
 		log.Print(err)
@@ -66,7 +89,7 @@ func ExportSinglePageHTML(dict *Dictionary) (string, error) {
 
 	if err := t.Execute(&html, htmlParameters{
 		LanguageName: dict.LanguageName,
-		Entries:      sortedEntries,
+		HTMLEntries:  sortedEntriesHTML,
 	}); err != nil {
 		log.Print(err)
 		return "", err
