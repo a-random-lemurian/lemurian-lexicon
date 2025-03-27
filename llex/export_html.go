@@ -5,6 +5,8 @@ import (
 	"html/template"
 	"log"
 	"sort"
+
+	"github.com/yosssi/gohtml"
 )
 
 var HtmlTemplate = `
@@ -99,7 +101,7 @@ func ExportSinglePageHTML(dict *Dictionary) (string, error) {
 		return "", err
 	}
 
-	return html.String(), nil
+	return gohtml.Format(html.String()), nil
 }
 
 type StaticExportParams struct {
