@@ -41,11 +41,9 @@ var HtmlTemplate = `
 `
 
 var WordTemplate = `<div class="entry">
-<b class="headword">{{.Word}}</b> <i class="part-of-speech">{{.POS}}</i> <br>
-<ol>
-{{range .Definitions}}
-	<li>{{.Text}}</li>
-{{end}}
+<b><span class="headword">{{.Word}}</span></b> <i><span class="part-of-speech">{{.POS}}</span></i> <br>
+<ol class="definitions">
+{{range .Definitions}}<li class="definition">{{.Text}}</li>{{end}}
 </ol>
 </div>`
 
