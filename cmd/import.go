@@ -21,7 +21,7 @@ func (e *ErrorUnsupportedFormat) Error() string {
 
 func cmdImport(cCtx *cli.Context) error {
 	importFmt := cCtx.String("format")
-	importFile := cCtx.String("file")
+	importFile := cCtx.String("input")
 	outputFile := cCtx.String("output")
 
 	// Todo: Do not hardcode once extra formats added

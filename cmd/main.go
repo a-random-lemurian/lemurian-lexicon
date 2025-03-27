@@ -15,8 +15,8 @@ func main() {
 				Usage:   "Import a lexicon from another format.",
 				Action:  cmdImport,
 				Flags: []cli.Flag{
-					&cli.StringFlag{Name: "format", Usage: "Format of the file to import from", Required: true, Aliases: []string{"t"}},
-					&cli.StringFlag{Name: "file", Usage: "File to import from", Required: true, Aliases: []string{"f"}},
+					&cli.StringFlag{Name: "format", Usage: "Format of the file to import from", Required: true, Aliases: []string{"f"}},
+					&cli.StringFlag{Name: "input", Usage: "File to import from", Required: true, Aliases: []string{"i"}},
 					&cli.StringFlag{Name: "output", Usage: "File to output LLEX json to. lp for Lexique Pro .db files, the only supported file format.", Aliases: []string{"o"}},
 				},
 			},
