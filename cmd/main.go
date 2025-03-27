@@ -8,6 +8,8 @@ import (
 
 func main() {
 	app := &cli.App{
+		Usage: "A program for managing conlang lexicons",
+		Authors: []*cli.Author{{Name: "Lemuria"}},
 		Commands: []*cli.Command{
 			{
 				Name:    "import",
