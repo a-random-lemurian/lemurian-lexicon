@@ -28,6 +28,9 @@ var HtmlTemplate = `
 			max-width: 600px;
 			margin: auto;
 		}
+		.entry {
+			break-inside: avoid;
+		}
     </style>
 </head>
 <body>
