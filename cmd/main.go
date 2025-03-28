@@ -20,6 +20,7 @@ func main() {
 					&cli.StringFlag{Name: "format", Usage: "Format of the file to import from", Required: true, Aliases: []string{"f"}},
 					&cli.StringFlag{Name: "input", Usage: "File to import from", Required: true, Aliases: []string{"i"}},
 					&cli.StringFlag{Name: "output", Usage: "File to output LLEX json to. lp for Lexique Pro .db files, the only supported file format.", Aliases: []string{"o"}},
+					&cli.StringFlag{Name: "language-name", Usage: "Name of the language to be imported (Lexique Pro does not include the name)"},
 				},
 			},
 			{

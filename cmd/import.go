@@ -33,6 +33,9 @@ func cmdImport(cCtx *cli.Context) error {
 	if err != nil {
 		return err
 	}
+	
+	dict.LanguageName = cCtx.String("language-name")
+
 	dictJson, err := json.Marshal(dict)
 	if err != nil {
 		return err
