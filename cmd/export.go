@@ -29,6 +29,16 @@ func cmdExport(cCtx *cli.Context) error {
 		return err
 	}
 
+	// Attempt to create the output file before starting the generation
+	// process, so that if there is a problem with the output file, time
+	// is not wasted generating a result that will never be written.
+	outputFile, err := os.Create(outputPath)
+	if err != nil {
+		return err
+	}
+	defer outputFile.Close()
+	writer := bufio.NewWriter(outputFile)
+
 	var dictionary llex.Dictionary
 	err = json.Unmarshal(dictionaryRawJson, &dictionary)
 	if err != nil {
@@ -42,13 +52,6 @@ func cmdExport(cCtx *cli.Context) error {
 			return err
 		}
 
-		outputFile, err := os.Create(outputPath)
-		if err != nil {
-			return err
-		}
-		defer outputFile.Close()
-
-		writer := bufio.NewWriter(outputFile)
 		_, err = writer.WriteString(html)
 		if err != nil {
 			return err
