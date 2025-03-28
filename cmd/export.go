@@ -58,5 +58,5 @@ func cmdExport(cCtx *cli.Context) error {
 		}
 	}
 
-	return nil
+	return writer.Flush()
 }
