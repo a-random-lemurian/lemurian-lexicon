@@ -62,16 +62,18 @@ var WordTemplate = `<div class="entry">
 </div>`
 
 type htmlParameters struct {
-	LanguageName string
-	HTMLEntries  []template.HTML
-	Timestamp    time.Time
-	NumWords     int
+	LanguageName   string
+	HTMLEntries    []template.HTML
+	Timestamp      time.Time
+	NumWords       int
 	GenerationTime string
 }
 
 func (e *Entry) GenerateHTML() (string, error) {
 	t, err := template.New("html").Parse(WordTemplate)
-	if err != nil { return "", err }
+	if err != nil {
+		return "", err
+	}
 
 	var html bytes.Buffer
 
@@ -113,11 +115,11 @@ func ExportSinglePageHTML(dict *Dictionary) (string, error) {
 	endTime := time.Now()
 
 	if err := t.Execute(&html, htmlParameters{
-		LanguageName: dict.LanguageName,
-		HTMLEntries:  sortedEntriesHTML,
-		Timestamp: endTime,
+		LanguageName:   dict.LanguageName,
+		HTMLEntries:    sortedEntriesHTML,
+		Timestamp:      endTime,
 		GenerationTime: endTime.Sub(startTime).String(),
-		NumWords: len(dict.Entries),
+		NumWords:       len(dict.Entries),
 	}); err != nil {
 		log.Print(err)
 		return "", err

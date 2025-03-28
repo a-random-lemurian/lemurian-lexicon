@@ -50,7 +50,7 @@ func ImportFromLexiquePro(filename string) (*Dictionary, error) {
 		}
 
 	}
-	
+
 	// Add the final entry to the list.
 	dictionary.Entries = append(dictionary.Entries, currentEntry)
 

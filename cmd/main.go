@@ -8,7 +8,7 @@ import (
 
 func main() {
 	app := &cli.App{
-		Usage: "A program for managing conlang lexicons",
+		Usage:   "A program for managing conlang lexicons",
 		Authors: []*cli.Author{{Name: "Lemuria"}},
 		Commands: []*cli.Command{
 			{
@@ -24,10 +24,10 @@ func main() {
 				},
 			},
 			{
-				Name: "export",
+				Name:    "export",
 				Aliases: []string{"e"},
-				Usage: "Export a lexicon.",
-				Action: cmdExport,
+				Usage:   "Export a lexicon.",
+				Action:  cmdExport,
 				Flags: []cli.Flag{
 					&cli.StringFlag{Name: "format", Usage: "Format to export into", Required: true, Aliases: []string{"f"}},
 					&cli.StringFlag{Name: "input", Usage: "File to import from", Required: true, Aliases: []string{"i"}},

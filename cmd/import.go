@@ -1,10 +1,10 @@
 package main
 
 import (
-	"os"
-	"fmt"
 	"bufio"
-	
+	"fmt"
+	"os"
+
 	"encoding/json"
 
 	"github.com/a-random-lemurian/lemurian-lexicon/llex"
@@ -33,7 +33,7 @@ func cmdImport(cCtx *cli.Context) error {
 	if err != nil {
 		return err
 	}
-	
+
 	dict.LanguageName = cCtx.String("language-name")
 
 	dictJson, err := json.Marshal(dict)
