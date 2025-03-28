@@ -45,17 +45,20 @@ func cmdExport(cCtx *cli.Context) error {
 		return err
 	}
 
+	var output string
+
 	switch exportFmt {
 	case "html":
-		html, err := llex.ExportSinglePageHTML(&dictionary)
-		if err != nil {
-			return err
-		}
+		output, err = llex.ExportSinglePageHTML(&dictionary)		
+	}
 
-		_, err = writer.WriteString(html)
-		if err != nil {
-			return err
-		}
+	if err != nil {
+		return err
+	}
+	
+	_, err = writer.WriteString(output)
+	if err != nil {
+		return err
 	}
 
 	return writer.Flush()
