@@ -11,6 +11,10 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+var supportedImportFormats = []string{
+	"lp",    // Lexique Pro database files
+}
+
 type ErrorUnsupportedFormat struct {
 	attemptedFormat string
 }

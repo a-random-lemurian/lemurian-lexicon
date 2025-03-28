@@ -36,6 +36,14 @@ func main() {
 					&cli.StringFlag{Name: "output", Usage: "Path to output the exported lexicon to.", Aliases: []string{"o"}},
 				},
 			},
+			{
+				Name: "list-formats",
+				Usage: "List formats supported by llex",
+				Action: cmdListFormats,
+				Flags: []cli.Flag{
+					&cli.BoolFlag{Name: "json", Usage: "Print the list of supported formats as JSON"},
+				},
+			},
 		},
 	}
 
