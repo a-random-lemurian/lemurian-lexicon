@@ -31,6 +31,10 @@ var HtmlTemplate = `
 		.entry {
 			break-inside: avoid;
 		}
+		.auxilliary p {
+			font-size: 85%;
+			margin: 0.1%;
+		}
     </style>
 </head>
 <body>
@@ -53,7 +57,8 @@ var WordTemplate = `<div class="entry">
 <b><span class="headword">{{.Word}}</span></b> <i><span class="part-of-speech">{{.POS}}</span></i> <br>
 <ol class="definitions">
 {{range .Definitions}}<li class="definition">{{.Text}}</li>{{end}}
-</ol>
+</ol><div class="auxilliary">{{if .Etymology}}
+<p>Etymology: <span class="etymology">{{.Etymology}}</span></p>{{else}}{{end}}</div>
 </div>`
 
 type htmlParameters struct {
