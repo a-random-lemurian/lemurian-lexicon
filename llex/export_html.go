@@ -31,7 +31,7 @@ var HtmlTemplate = `
     </style>
 </head>
 <body>
-    <h1>{{.LanguageName}}</h1>
+    <h1><span class="language-name">{{.LanguageName}}</span></h1>
     <hr>
     <div class="dictionary">
 	{{range .HTMLEntries}}
