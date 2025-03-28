@@ -29,7 +29,7 @@ func ImportFromLexiquePro(filename string) (*Dictionary, error) {
 			if currentEntry != nil {
 				dictionary.Entries = append(dictionary.Entries, currentEntry)
 			}
-	
+
 			currentEntry = &Entry{Word: strings.Join(tokens[1:], " ")}
 			currentEntry.Definitions = make([]*Definition, 0)
 			currentEntry.Pronunciations = make([]*IPA, 0)
@@ -50,6 +50,9 @@ func ImportFromLexiquePro(filename string) (*Dictionary, error) {
 		}
 
 	}
+	
+	// Add the final entry to the list.
+	dictionary.Entries = append(dictionary.Entries, currentEntry)
 
 	if err := scanner.Err(); err != nil {
 		return nil, err
