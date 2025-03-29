@@ -30,6 +30,8 @@ var HtmlTemplate = `
 		}
 		.entry {
 			break-inside: avoid;
+margin-bottom: 8px;
+			padding-bottom: 8px;
 		}
 		.auxilliary p {
 			font-size: 85%;
