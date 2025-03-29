@@ -20,6 +20,9 @@ var HtmlTemplate = `
         .dictionary ol {
             margin: 0px;
         }
+		a {
+			color: #acc0fb;
+		}
 		body {
 			background-color: #000;
 			color: #fff;
