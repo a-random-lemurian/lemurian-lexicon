@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"encoding/json"
+	"html"
 	"os"
 	"slices"
 
@@ -13,6 +14,24 @@ import (
 var supportedExportFormats = []string{
 	"html",    // Single-file HTML
 	"website", // Static website or directory
+}
+
+// Get the contents of a file that can be passed in through command-line arguments.
+// Used for optional files.
+//
+// If filename is "", an empty string and a nil error will be returned.
+func getFileOptional(filename string) ([]byte, error) {
+	if filename == "" {
+		return []byte{}, nil
+	}
+	return os.ReadFile(filename)
+}
+
+func escapeHtml(text string, escape bool) string {
+	if escape {
+		text = html.EscapeString(text)
+	}
+	return text
 }
 
 func cmdExport(cCtx *cli.Context) error {
@@ -47,9 +66,35 @@ func cmdExport(cCtx *cli.Context) error {
 
 	var output string
 
+	params := llex.NewStaticExportParams(&dictionary)
+
+	// Retrieve authors' note and copyright text.
+
+	treatAsHtml := cCtx.Bool("treat-as-html")
+	
+	// Only overwrite params.Copyright so that if the copyright file is an empty string,
+	// the default single-file HTML export will still explicitly state that no copyright
+	// information was provided.
+	copyrightBytes, err := getFileOptional(cCtx.String("copyright"))
+	if err != nil {
+		return err
+	}
+	copyright := string(copyrightBytes)
+	copyright = escapeHtml(copyright, treatAsHtml)
+	if copyright != "" {
+		params.Copyright = copyright
+	}
+
+	authorsNoteBytes, err := getFileOptional(cCtx.String("authors-note"))
+	authorsNote := escapeHtml(string(authorsNoteBytes), treatAsHtml)
+	if err != nil {
+		return err
+	}
+	params.AuthorsNote = authorsNote
+
 	switch exportFmt {
 	case "html":
-		output, err = llex.ExportSinglePageHTML(&llex.StaticExportParams{Dictionary: &dictionary})		
+		output, err = llex.ExportSinglePageHTML(params)
 	}
 
 	if err != nil {
