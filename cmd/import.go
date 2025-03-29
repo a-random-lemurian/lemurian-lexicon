@@ -49,12 +49,18 @@ func cmdImport(cCtx *cli.Context) error {
 		fmt.Println(string(dictJson))
 		return nil
 	}
+
 	file, err := os.Create(outputFile)
 	if err != nil {
 		return err
 	}
+	defer file.Close()
 
 	writer := bufio.NewWriter(file)
 	_, err = writer.Write(dictJson)
-	return err
+	if err != nil {
+		return err
+	}
+
+	return writer.Flush()
 }
