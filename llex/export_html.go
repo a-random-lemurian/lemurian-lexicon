@@ -69,6 +69,10 @@ type htmlParameters struct {
 	GenerationTime string
 }
 
+type StaticExportParams struct {
+	Dictionary *Dictionary
+}
+
 func (e *Entry) GenerateHTML() (string, error) {
 	t, err := template.New("html").Parse(WordTemplate)
 	if err != nil {
@@ -87,10 +91,11 @@ func (e *Entry) GenerateHTML() (string, error) {
 }
 
 // Export a Dictionary to a single HTML file.
-func ExportSinglePageHTML(dict *Dictionary) (string, error) {
+func ExportSinglePageHTML(params *StaticExportParams) (string, error) {
 	var html bytes.Buffer
 
 	startTime := time.Now()
+	dict := params.Dictionary
 
 	sortedEntries := dict.Entries
 	sort.Slice(sortedEntries, func(i, j int) bool {
@@ -126,10 +131,6 @@ func ExportSinglePageHTML(dict *Dictionary) (string, error) {
 	}
 
 	return gohtml.Format(html.String()), nil
-}
-
-type StaticExportParams struct {
-	Dictionary *Dictionary
 }
 
 // Export a Dictionary to a static set of HTML files.

@@ -49,7 +49,7 @@ func cmdExport(cCtx *cli.Context) error {
 
 	switch exportFmt {
 	case "html":
-		output, err = llex.ExportSinglePageHTML(&dictionary)		
+		output, err = llex.ExportSinglePageHTML(&llex.StaticExportParams{Dictionary: &dictionary})		
 	}
 
 	if err != nil {
