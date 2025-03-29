@@ -6,8 +6,6 @@ import (
 	"log"
 	"sort"
 	"time"
-
-	"github.com/yosssi/gohtml"
 )
 
 var HtmlTemplate = `
@@ -132,7 +130,7 @@ func ExportSinglePageHTML(params *StaticExportParams) (string, error) {
 		return "", err
 	}
 
-	return gohtml.Format(html.String()), nil
+	return html.String(), nil
 }
 
 // Export a Dictionary to a static set of HTML files.
