@@ -65,7 +65,8 @@ var WordTemplate = `<div class="entry">
 <ol class="definitions">
 {{range .Definitions}}<li class="definition">{{.Text}}</li>{{end}}
 </ol><div class="auxilliary">{{if .Etymology}}
-<p>Etymology: <span class="etymology">{{.Etymology}}</span></p>{{else}}{{end}}</div>
+<p>Etymology: <span class="etymology">{{.Etymology}}</span></p>{{else}}{{end}}
+{{if .BorrowedWord}}<p>From: <span class="borrowed-from">{{.BorrowedWord}}</span>{{else}}{{end}}</div>
 </div>`
 
 type htmlParameters struct {
