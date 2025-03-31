@@ -47,6 +47,7 @@ var HtmlTemplate = `
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 		<meta name="generator" content="lemurian-lexicon-manager">
 		<meta name="description" content="A dictionary for the {{.LanguageName}} language">
+		{{if .Author}}<meta name="author" content="{{.Author}}">{{end}}
 		{{if .UseEmbeddedCSS}}
     <style>{{.CSS}}</style>
 		{{else}}

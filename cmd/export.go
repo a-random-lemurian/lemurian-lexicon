@@ -84,6 +84,9 @@ func cmdExport(cCtx *cli.Context) error {
 	var output string
 
 	params := llex.NewExportParams(&dictionary)
+
+	params.Author = cCtx.String("author")
+
 	err = getAuxillaryHTMLFiles(cCtx, params)
 	if err != nil {
 		return err

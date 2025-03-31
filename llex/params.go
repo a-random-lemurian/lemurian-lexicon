@@ -22,6 +22,7 @@ type ExportParams struct {
 	Timestamp      time.Time
 	GenerationTime time.Duration
 	NumWords       int
+	Author         string
 }
 
 // Create a default ExportParams object.
@@ -55,5 +56,6 @@ func (p *ExportParams) ToTemplateParams() map[string]any {
 		"ShowNavbar":     p.ShowNavbar,
 		"NavbarHTML":     p.NavbarHTML,
 		"IndexPage":      p.IndexPage,
+		"Author":         p.Author,
 	}
 }

@@ -35,6 +35,7 @@ func main() {
 					// We call it the output path, because the format can either be a single file or a directory (in the case of a website export.)
 					&cli.StringFlag{Name: "output", Usage: "Path to output the exported lexicon to.", Aliases: []string{"o"}},
 
+					&cli.StringFlag{Name: "author", Usage: "The name of the conlang's author, or authors"},
 					&cli.StringFlag{Name: "copyright", Usage: "Path to a file with copyright information."},
 					&cli.StringFlag{Name: "authors-note", Usage: "Path to a file with an authors' note."},
 					&cli.BoolFlag{Name: "treat-as-html", Usage: "If the export format is HTML, treat the copyright and authors' note files as HTML, not plaintext."},
