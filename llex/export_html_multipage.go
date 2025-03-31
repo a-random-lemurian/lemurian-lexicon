@@ -85,7 +85,7 @@ func generateNavbarHtml(words *map[string][]template.HTML) (template.HTML, error
 	if err != nil {
 		return "", err
 	}
-	
+
 	return template.HTML(html.String()), nil
 }
 
@@ -137,12 +137,12 @@ func ExportStaticHTML(params *StaticExportParams) error {
 		CSSFile:        template.HTML(CSS_FILE),
 		Multipage:      true,
 		NavbarHTML:     navbarHTML,
-ShowNavbar:     true,
+		ShowNavbar:     true,
 	}
 
 	indexHtmlParams := baseParams
 	indexHtmlParams.IndexPage = true
-	
+
 	// Generate index.html.
 	indexHTML, err := executeHTMLTemplate(indexHtmlParams)
 	if err != nil {
@@ -159,8 +159,8 @@ ShowNavbar:     true,
 	// Begin generating the HTML pages.
 	for letter, entries := range alphabeticalMapHTML {
 		entryParams := baseParams
-		entryParams.HTMLEntries =    entries
-		entryParams.NumWords =       len(entries)
+		entryParams.HTMLEntries = entries
+		entryParams.NumWords = len(entries)
 		htmlString, err := executeHTMLTemplate(entryParams)
 		if err != nil {
 			return err
@@ -171,7 +171,7 @@ ShowNavbar:     true,
 			return err
 		}
 	}
-	
+
 	// Write the CSS file out.
 	err = writeStringToFile(CSS, path.Join(outdir, CSS_FILE))
 	if err != nil {
