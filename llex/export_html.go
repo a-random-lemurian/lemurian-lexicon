@@ -111,6 +111,27 @@ func (e *Entry) GenerateHTML() (string, error) {
 	return html.String(), nil
 }
 
+func batchGenerateEntryHTML(entries []*Entry) ([]template.HTML, error) {
+	var entriesHTML []template.HTML
+	for _, entry := range entries {
+		entryHTML, err := entry.GenerateHTML()
+		if err != nil {
+			return nil, err
+		}
+		entriesHTML = append(entriesHTML, template.HTML(entryHTML))
+	}
+	return entriesHTML, nil
+}
+
+func sortEntries(entries []*Entry) []*Entry {
+	var sortedEntries []*Entry
+	copy(entries, sortedEntries)
+	sort.Slice(sortedEntries, func(i, j int) bool {
+		return sortedEntries[i].Word < sortedEntries[j].Word
+	})
+	return sortedEntries
+}
+
 // Export a Dictionary to a single HTML file.
 func ExportSinglePageHTML(params *StaticExportParams) (string, error) {
 	var html bytes.Buffer
@@ -118,18 +139,10 @@ func ExportSinglePageHTML(params *StaticExportParams) (string, error) {
 	startTime := time.Now()
 	dict := params.Dictionary
 
-	sortedEntries := dict.Entries
-	sort.Slice(sortedEntries, func(i, j int) bool {
-		return sortedEntries[i].Word < sortedEntries[j].Word
-	})
-
-	var sortedEntriesHTML []template.HTML
-	for _, entry := range sortedEntries {
-		entryHTML, err := entry.GenerateHTML()
+	sortedEntries := sortEntries(dict.Entries)
+	sortedEntriesHTML, err := batchGenerateEntryHTML(sortedEntries)
 		if err != nil {
 			return "", err
-		}
-		sortedEntriesHTML = append(sortedEntriesHTML, template.HTML(entryHTML))
 	}
 
 	t, err := template.New("html").Parse(HtmlTemplate)
