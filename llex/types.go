@@ -1,5 +1,7 @@
 package llex
 
+import "html/template"
+
 type QualifiedStrings struct {
 	Qualifiers []string `json:"qualifiers,omitempty"`
 	Text       string   `json:"text"`
@@ -34,4 +36,6 @@ type StaticExportParams struct {
 	// Whether the HTML lexicon page is single or multi-page.
 	Multipage   bool
 	CSSFile     string
+	ShowNavbar  bool
+	NavbarHTML  template.HTML
 }
