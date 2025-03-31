@@ -56,7 +56,7 @@ var HtmlTemplate = `
 		<div class="header">
 		{{if .Multipage}}<a href="./index.html">Return to index</a> or <a href="/">root page</a>.{{else}}{{end}}
     <h1><span class="language-name">{{.LanguageName}}</span></h1>
-		{{if .Multipage}}{{.NavbarHTML}}{{else}}{{end}}
+		{{if .ShowNavbar}}{{.NavbarHTML}}{{else}}{{end}}
     </div>
 		<hr>
 	{{if .AuthorsNote}}<div class="authors-note">{{.AuthorsNote}}</div>{{end}}
@@ -104,6 +104,7 @@ type htmlParameters struct {
 	CSS            template.CSS
 	CSSFile        template.HTML
 	Multipage      bool
+	ShowNavbar     bool
 	NavbarHTML     template.HTML
 	IndexPage      bool
 }
@@ -174,6 +175,9 @@ func ExportSinglePageHTML(params *StaticExportParams) (string, error) {
 		NumWords:       len(dict.Entries),
 		Copyright:      template.HTML(params.Copyright),
 		AuthorsNote:    template.HTML(params.AuthorsNote),
+		Multipage:      params.Multipage,
+		ShowNavbar:     params.ShowNavbar,
+		NavbarHTML:     params.NavbarHTML,
 	}
 
 	if params.CSSFile != "" {
