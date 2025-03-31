@@ -150,6 +150,8 @@ func ExportStaticHTML(params *StaticExportParams) error {
 		return err
 	}
 
+	indexHtmlParams.IndexPage = false
+
 	err = writeStringToFile(indexHTML, path.Join(outdir, "index.html"))
 	if err != nil {
 		return err
