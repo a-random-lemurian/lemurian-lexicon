@@ -12,7 +12,7 @@ import (
 )
 
 var supportedImportFormats = []string{
-	"lp",    // Lexique Pro database files
+	"lp", // Lexique Pro database files
 }
 
 type ErrorUnsupportedFormat struct {

@@ -35,7 +35,6 @@ var CSS = `
 			font-size: 110%;
 		}`
 
-
 // TODO: Do not hardcode "{{.LanguageName}} - English".
 
 var HtmlTemplate = `

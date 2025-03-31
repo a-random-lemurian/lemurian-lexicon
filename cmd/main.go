@@ -41,8 +41,8 @@ func main() {
 				},
 			},
 			{
-				Name: "list-formats",
-				Usage: "List formats supported by llex",
+				Name:   "list-formats",
+				Usage:  "List formats supported by llex",
 				Action: cmdListFormats,
 				Flags: []cli.Flag{
 					&cli.BoolFlag{Name: "json", Usage: "Print the list of supported formats as JSON"},

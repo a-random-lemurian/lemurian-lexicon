@@ -37,7 +37,7 @@ func escapeHtml(text string, escape bool) string {
 func getAuxillaryHTMLFiles(cCtx *cli.Context, params *llex.StaticExportParams) error {
 	// Retrieve authors' note and copyright text.
 	treatAsHtml := cCtx.Bool("treat-as-html")
-	
+
 	// Only overwrite params.Copyright so that if the copyright file is an empty string,
 	// the default single-file HTML export will still explicitly state that no copyright
 	// information was provided.
@@ -74,15 +74,15 @@ func cmdExport(cCtx *cli.Context) error {
 	if err != nil {
 		return err
 	}
-	
+
 	var dictionary llex.Dictionary
 	err = json.Unmarshal(dictionaryRawJson, &dictionary)
 	if err != nil {
 		return err
 	}
-	
+
 	var output string
-	
+
 	params := llex.NewStaticExportParams(&dictionary)
 	err = getAuxillaryHTMLFiles(cCtx, params)
 	if err != nil {
@@ -105,7 +105,6 @@ func cmdExport(cCtx *cli.Context) error {
 	}
 	defer outputFile.Close()
 	writer := bufio.NewWriter(outputFile)
-	
 
 	switch exportFmt {
 	case "html":
@@ -115,7 +114,7 @@ func cmdExport(cCtx *cli.Context) error {
 	if err != nil {
 		return err
 	}
-	
+
 	_, err = writer.WriteString(output)
 	if err != nil {
 		return err
