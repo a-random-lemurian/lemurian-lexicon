@@ -180,6 +180,8 @@ func ExportStaticHTML(params *StaticExportParams) error {
 	}
 
 	params.CSSFile = CSS_FILE
+	params.Multipage = true
+
 	// Generate the all-words.html file.
 	allHTML, err := ExportSinglePageHTML(params)
 	if err != nil {
