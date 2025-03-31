@@ -139,6 +139,7 @@ func ExportStaticHTML(params *StaticExportParams) error {
 		CSSFile:        template.HTML(CSS_FILE),
 		Multipage:      true,
 		NavbarHTML:     navbarHTML,
+ShowNavbar:     true,
 	}
 
 	indexHtmlParams := baseParams
