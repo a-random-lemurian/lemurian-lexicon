@@ -179,6 +179,7 @@ func ExportStaticHTML(params *ExportParams) error {
 
 	params.CSSFile = CSS_FILE
 	params.Multipage = true
+	params.NumWords = len(params.Dictionary.Entries)
 
 	// Generate the all-words.html file.
 	allHTML, err := ExportSinglePageHTML(params)
