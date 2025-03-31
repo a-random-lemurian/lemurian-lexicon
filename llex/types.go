@@ -1,7 +1,5 @@
 package llex
 
-import "html/template"
-
 type QualifiedStrings struct {
 	Qualifiers []string `json:"qualifiers,omitempty"`
 	Text       string   `json:"text"`
@@ -23,19 +21,4 @@ type Entry struct {
 type Dictionary struct {
 	LanguageName string   `json:"languageName"`
 	Entries      []*Entry `json:"entries"`
-}
-
-type StaticExportParams struct {
-	Dictionary  *Dictionary
-	Copyright   string
-	AuthorsNote string
-	OutputPath  string
-
-	// Options related to multi-page exports.
-
-	// Whether the HTML lexicon page is single or multi-page.
-	Multipage  bool
-	CSSFile    string
-	ShowNavbar bool
-	NavbarHTML template.HTML
 }

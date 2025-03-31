@@ -90,7 +90,7 @@ func generateNavbarHtml(words *map[string][]template.HTML) (template.HTML, error
 }
 
 // Export a Dictionary to a static set of HTML files.
-func ExportStaticHTML(params *StaticExportParams) error {
+func ExportStaticHTML(params *ExportParams) error {
 	startTime := time.Now()
 	outdir := params.OutputPath
 	CSS_FILE := "index.css"
@@ -125,31 +125,19 @@ func ExportStaticHTML(params *StaticExportParams) error {
 		return err
 	}
 
-	endTime := time.Now()
-
-	baseParams := &htmlParameters{
-		LanguageName:   params.Dictionary.LanguageName,
-		Timestamp:      endTime,
-		GenerationTime: endTime.Sub(startTime).String(),
-		Copyright:      template.HTML(params.Copyright),
-		AuthorsNote:    template.HTML(params.AuthorsNote),
-		UseEmbeddedCSS: false,
-		CSSFile:        template.HTML(CSS_FILE),
-		Multipage:      true,
-		NavbarHTML:     navbarHTML,
-		ShowNavbar:     true,
-	}
-
-	indexHtmlParams := baseParams
-	indexHtmlParams.IndexPage = true
+	params.NavbarHTML = navbarHTML
+	params.ShowNavbar = true
+	params.Multipage = true
+	params.GenerationTime = time.Since(startTime)
+	params.IndexPage = true
 
 	// Generate index.html.
-	indexHTML, err := executeHTMLTemplate(indexHtmlParams)
+	indexHTML, err := executeHTMLTemplate(params.ToTemplateParams())
 	if err != nil {
 		return err
 	}
 
-	indexHtmlParams.IndexPage = false
+	params.IndexPage = false
 
 	err = writeStringToFile(indexHTML, path.Join(outdir, "index.html"))
 	if err != nil {
@@ -158,10 +146,9 @@ func ExportStaticHTML(params *StaticExportParams) error {
 
 	// Begin generating the HTML pages.
 	for letter, entries := range alphabeticalMapHTML {
-		entryParams := baseParams
-		entryParams.HTMLEntries = entries
-		entryParams.NumWords = len(entries)
-		htmlString, err := executeHTMLTemplate(entryParams)
+		params.HTMLEntries = entries
+		params.NumWords = len(entries)
+		htmlString, err := executeHTMLTemplate(params.ToTemplateParams())
 		if err != nil {
 			return err
 		}

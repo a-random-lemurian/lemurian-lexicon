@@ -34,7 +34,7 @@ func escapeHtml(text string, escape bool) string {
 	return text
 }
 
-func getAuxillaryHTMLFiles(cCtx *cli.Context, params *llex.StaticExportParams) error {
+func getAuxillaryHTMLFiles(cCtx *cli.Context, params *llex.ExportParams) error {
 	// Retrieve authors' note and copyright text.
 	treatAsHtml := cCtx.Bool("treat-as-html")
 
@@ -83,7 +83,7 @@ func cmdExport(cCtx *cli.Context) error {
 
 	var output string
 
-	params := llex.NewStaticExportParams(&dictionary)
+	params := llex.NewExportParams(&dictionary)
 	err = getAuxillaryHTMLFiles(cCtx, params)
 	if err != nil {
 		return err

@@ -93,32 +93,6 @@ var WordTemplate = `<div class="entry">
 {{if .BorrowedWord}}<p>From: <span class="borrowed-from">{{.BorrowedWord}}</span>{{else}}{{end}}</div>
 </div>`
 
-type htmlParameters struct {
-	LanguageName   string
-	HTMLEntries    []template.HTML
-	Timestamp      time.Time
-	NumWords       int
-	GenerationTime string
-	Copyright      template.HTML
-	AuthorsNote    template.HTML
-	UseEmbeddedCSS bool
-	CSS            template.CSS
-	CSSFile        template.HTML
-	Multipage      bool
-	ShowNavbar     bool
-	NavbarHTML     template.HTML
-	IndexPage      bool
-}
-
-func NewStaticExportParams(dict *Dictionary) *StaticExportParams {
-	params := &StaticExportParams{
-		Dictionary: dict,
-	}
-	params.Copyright = "No copyright information provided."
-	params.AuthorsNote = ""
-	return params
-}
-
 func (e *Entry) GenerateHTML() (string, error) {
 	t, err := template.New("html").Parse(WordTemplate)
 	if err != nil {
@@ -156,41 +130,26 @@ func sortEntries(entries []*Entry) []*Entry {
 }
 
 // Export a Dictionary to a single HTML file.
-func ExportSinglePageHTML(params *StaticExportParams) (string, error) {
+func ExportSinglePageHTML(params *ExportParams) (string, error) {
 	startTime := time.Now()
 	dict := params.Dictionary
 
+	var err error
+
 	sortedEntries := sortEntries(dict.Entries)
-	sortedEntriesHTML, err := batchGenerateEntryHTML(sortedEntries)
+	params.HTMLEntries, err = batchGenerateEntryHTML(sortedEntries)
 	if err != nil {
 		return "", err
 	}
 
-	endTime := time.Now()
+	params.Timestamp = startTime
+	params.GenerationTime = time.Since(startTime)
 
-	htmlParams := htmlParameters{
-		LanguageName:   dict.LanguageName,
-		HTMLEntries:    sortedEntriesHTML,
-		Timestamp:      endTime,
-		GenerationTime: endTime.Sub(startTime).String(),
-		NumWords:       len(dict.Entries),
-		Copyright:      template.HTML(params.Copyright),
-		AuthorsNote:    template.HTML(params.AuthorsNote),
-		Multipage:      params.Multipage,
-		ShowNavbar:     params.ShowNavbar,
-		NavbarHTML:     params.NavbarHTML,
-	}
-
-	if params.CSSFile != "" {
-		htmlParams.CSSFile = template.HTML(params.CSSFile)
-		htmlParams.UseEmbeddedCSS = false
-	}
-
-	return executeHTMLTemplate(&htmlParams)
+	return executeHTMLTemplate(params.ToTemplateParams())
 }
 
 // Execute the template to create the necessary HTML with parameters already fed in.
-func executeHTMLTemplate(params *htmlParameters) (string, error) {
+func executeHTMLTemplate(params map[string]any) (string, error) {
 	var html bytes.Buffer
 
 	t, err := template.New("html").Parse(HtmlTemplate)
