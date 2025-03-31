@@ -27,4 +27,11 @@ type StaticExportParams struct {
 	Dictionary  *Dictionary
 	Copyright   string
 	AuthorsNote string
+	OutputPath  string
+
+	// Options related to multi-page exports.
+
+	// Whether the HTML lexicon page is single or multi-page.
+	Multipage   bool
+	CSSFile     string
 }

@@ -34,42 +34,8 @@ func escapeHtml(text string, escape bool) string {
 	return text
 }
 
-func cmdExport(cCtx *cli.Context) error {
-	exportFmt := cCtx.String("format")
-	inputFile := cCtx.String("input")
-	outputPath := cCtx.String("output")
-
-	if !slices.Contains(supportedExportFormats, exportFmt) {
-		return &ErrorUnsupportedFormat{attemptedFormat: exportFmt}
-	}
-
-	dictionaryRawJson, err := os.ReadFile(inputFile)
-	if err != nil {
-		return err
-	}
-
-	// Attempt to create the output file before starting the generation
-	// process, so that if there is a problem with the output file, time
-	// is not wasted generating a result that will never be written.
-	outputFile, err := os.Create(outputPath)
-	if err != nil {
-		return err
-	}
-	defer outputFile.Close()
-	writer := bufio.NewWriter(outputFile)
-
-	var dictionary llex.Dictionary
-	err = json.Unmarshal(dictionaryRawJson, &dictionary)
-	if err != nil {
-		return err
-	}
-
-	var output string
-
-	params := llex.NewStaticExportParams(&dictionary)
-
+func getAuxillaryHTMLFiles(cCtx *cli.Context, params *llex.StaticExportParams) error {
 	// Retrieve authors' note and copyright text.
-
 	treatAsHtml := cCtx.Bool("treat-as-html")
 	
 	// Only overwrite params.Copyright so that if the copyright file is an empty string,
@@ -91,6 +57,55 @@ func cmdExport(cCtx *cli.Context) error {
 		return err
 	}
 	params.AuthorsNote = authorsNote
+
+	return nil
+}
+
+func cmdExport(cCtx *cli.Context) error {
+	exportFmt := cCtx.String("format")
+	inputFile := cCtx.String("input")
+	outputPath := cCtx.String("output")
+
+	if !slices.Contains(supportedExportFormats, exportFmt) {
+		return &ErrorUnsupportedFormat{attemptedFormat: exportFmt}
+	}
+
+	dictionaryRawJson, err := os.ReadFile(inputFile)
+	if err != nil {
+		return err
+	}
+	
+	var dictionary llex.Dictionary
+	err = json.Unmarshal(dictionaryRawJson, &dictionary)
+	if err != nil {
+		return err
+	}
+	
+	var output string
+	
+	params := llex.NewStaticExportParams(&dictionary)
+	err = getAuxillaryHTMLFiles(cCtx, params)
+	if err != nil {
+		return err
+	}
+
+	// llex.ExportStaticHTML handles the file-writing logic, so return early
+	// if the website option is selected.
+	if exportFmt == "website" {
+		params.OutputPath = outputPath
+		return llex.ExportStaticHTML(params)
+	}
+
+	// Attempt to create the output file before starting the generation
+	// process, so that if there is a problem with the output file, time
+	// is not wasted generating a result that will never be written.
+	outputFile, err := os.Create(outputPath)
+	if err != nil {
+		return err
+	}
+	defer outputFile.Close()
+	writer := bufio.NewWriter(outputFile)
+	
 
 	switch exportFmt {
 	case "html":
