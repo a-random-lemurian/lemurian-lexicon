@@ -79,12 +79,6 @@ type htmlParameters struct {
 	AuthorsNote    template.HTML
 }
 
-type StaticExportParams struct {
-	Dictionary  *Dictionary
-	Copyright   string
-	AuthorsNote string
-}
-
 func NewStaticExportParams(dict *Dictionary) *StaticExportParams {
 	params := &StaticExportParams{
 		Dictionary: dict,

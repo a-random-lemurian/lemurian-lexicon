@@ -22,3 +22,9 @@ type Dictionary struct {
 	LanguageName string   `json:"languageName"`
 	Entries      []*Entry `json:"entries"`
 }
+
+type StaticExportParams struct {
+	Dictionary  *Dictionary
+	Copyright   string
+	AuthorsNote string
+}
