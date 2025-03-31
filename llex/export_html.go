@@ -70,6 +70,7 @@ var HtmlTemplate = `
 	{{if .IndexPage}}
 	<p>Welcome to the lexicon for {{.LanguageName}}. This is a {{.LanguageName}} - English dictionary,
 	not the other way around. To get started, click on any letter of the alphabet in the navbar.</p>
+	<p>To make searching easier, feel free to access a <a href="./all-words.html">single-page</a> version.</p>
 	{{end}}
     <hr>
 	<p><b>Copyright</b>: {{.Copyright}}</p>
@@ -173,6 +174,11 @@ func ExportSinglePageHTML(params *StaticExportParams) (string, error) {
 		NumWords:       len(dict.Entries),
 		Copyright:      template.HTML(params.Copyright),
 		AuthorsNote:    template.HTML(params.AuthorsNote),
+	}
+
+	if params.CSSFile != "" {
+		htmlParams.CSSFile = template.HTML(params.CSSFile)
+		htmlParams.UseEmbeddedCSS = false
 	}
 
 	return executeHTMLTemplate(&htmlParams)

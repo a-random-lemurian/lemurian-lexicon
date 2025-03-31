@@ -179,5 +179,12 @@ func ExportStaticHTML(params *StaticExportParams) error {
 		return err
 	}
 
-	return nil
+	params.CSSFile = CSS_FILE
+	// Generate the all-words.html file.
+	allHTML, err := ExportSinglePageHTML(params)
+	if err != nil {
+		return err
+	}
+
+	return writeStringToFile(allHTML, path.Join(outdir, "all-words.html"))
 }
