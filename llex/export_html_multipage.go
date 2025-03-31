@@ -24,11 +24,10 @@ type splitWordParams struct {
 // TODOs that we are not going to deal with right now because Kenahari doesn't need
 // them:
 //
-// - The ability to split by the first two letters, for when lexicons start to get
-//   really long
-// - Actual unicode support - when testing two letter splits, a question mark character
-//   appeared in a word file containing one word that started with ká (note the diacritic).
-//
+//   - The ability to split by the first two letters, for when lexicons start to get
+//     really long
+//   - Actual unicode support - when testing two letter splits, a question mark character
+//     appeared in a word file containing one word that started with ká (note the diacritic).
 func splitWordsByLetter(params *splitWordParams) map[string][]*Entry {
 	entries := params.Entries
 	alphabeticalMap := make(map[string][]*Entry)
@@ -50,7 +49,6 @@ func splitWordsByLetter(params *splitWordParams) map[string][]*Entry {
 
 	return alphabeticalMap
 }
-
 
 // Convenience function to create a file with a string.
 func writeStringToFile(data string, path string) error {
