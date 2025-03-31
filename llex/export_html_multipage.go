@@ -19,6 +19,19 @@ type splitWordParams struct {
 	CaseSensitive bool     // Whether words with different casings are treated differently.
 }
 
+// Get the first N unicode characters of a string. This works with Unicode strings.
+// Do not use string[0:2].
+func firstN(s string, n int) string {
+	i := 0
+	for j := range s {
+		if i == n {
+			return s[:j]
+		}
+		i++
+	}
+	return s
+}
+
 // Split a dictionary into a map of Entry slices based on the word's first letter.
 //
 // TODOs that we are not going to deal with right now because Kenahari doesn't need
@@ -26,8 +39,7 @@ type splitWordParams struct {
 //
 //   - The ability to split by the first two letters, for when lexicons start to get
 //     really long
-//   - Actual unicode support - when testing two letter splits, a question mark character
-//     appeared in a word file containing one word that started with ká (note the diacritic).
+//
 func splitWordsByLetter(params *splitWordParams) map[string][]*Entry {
 	entries := params.Entries
 	alphabeticalMap := make(map[string][]*Entry)
@@ -39,7 +51,7 @@ func splitWordsByLetter(params *splitWordParams) map[string][]*Entry {
 			continue
 		}
 
-		firstLetter := entry.Word[0:1]
+		firstLetter := firstN(entry.Word, 1)
 		if !params.CaseSensitive {
 			firstLetter = strings.ToLower(firstLetter)
 		}
