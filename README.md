@@ -6,5 +6,5 @@ partially motivated by frustration with the perceived substandard performance of
 ## Install
 
 ```
-go install github.com/a-random-lemurian/lemurian-lexicon/cmd/llex
+go install github.com/a-random-lemurian/lemurian-lexicon/cmd/llex@latest
 ```
