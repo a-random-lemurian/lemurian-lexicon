@@ -47,6 +47,8 @@ func ImportFromLexiquePro(filename string) (*Dictionary, error) {
 			currentEntry.Etymology = strings.Join(tokens[1:], " ")
 		case `\bw`:
 			currentEntry.BorrowedWord = strings.Join(tokens[1:], " ")
+		case `\lt`:
+			currentEntry.LiteralMeaning = strings.Join(tokens[1:], " ")
 		default:
 			continue
 		}

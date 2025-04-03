@@ -16,6 +16,7 @@ type Entry struct {
 	UsageNotes     []string      `json:"usageNotes,omitempty"`
 	Etymology      string        `json:"etymology,omitempty"`
 	BorrowedWord   string        `json:"borrowedWord,omitempty"`
+	LiteralMeaning string        `json:"literalMeaning,omitempty"`
 }
 
 type Dictionary struct {
