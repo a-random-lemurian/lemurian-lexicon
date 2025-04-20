@@ -68,7 +68,7 @@ var HtmlTemplate = `
 </head>
 <body>
 		<div class="header">
-		{{if .Multipage}}<a href="./index.html">Return to index</a> or <a href="/">root page</a>.{{else}}{{end}}
+		{{if .Multipage}}<span class="no-print"><a href="./index.html">Return to index</a> or <a href="/">root page</a>.</span>{{else}}{{end}}
     <h1><span class="language-name">{{.LanguageName}}</span></h1>
 		{{if .ShowNavbar}}{{.NavbarHTML}}{{else}}{{end}}
     </div>
