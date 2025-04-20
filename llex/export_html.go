@@ -20,6 +20,18 @@ var CSS = `
 			color: #fff;
 			max-width: 600px;
 			margin: auto;
+			padding: 10px;
+		}
+		@media screen {
+			body {
+				border: 1px solid #4d4d4d;
+				border-radius: 20px;
+			}
+		}
+		@media print {
+			.no-print {
+				display: none;
+			}
 		}
 		.entry {
 			break-inside: avoid;
